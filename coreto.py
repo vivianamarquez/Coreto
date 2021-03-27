@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 ###############################################################################
 # Script to get alerts from Coreto
 # By: Viviana Márquez
