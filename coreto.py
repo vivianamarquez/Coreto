@@ -61,7 +61,7 @@ latest_prices = df[df.flag].iloc[-2:].price.apply(lambda val: float(val[1:])).va
 diff = abs(latest_prices[0]-latest_prices[1])
 
 # Excecute code if difference is higher than USD$0.005 
-flag = diff>0.05
+flag = diff>0.02
 
 def send_msg(text, number, sender):
     message = client.messages.create(body=text, from_=sender, to=number)
@@ -91,4 +91,4 @@ else:
     df.to_csv("coreto_price.csv", index=False)
 
 
-print(f"Done @ {datetime.now().strftime("%m/%d/%Y, %H:%M:%S")}")
+print(f"Done @ {datetime.now().strftime('%m/%d/%Y, %H:%M:%S')}")
