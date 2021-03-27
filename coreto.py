@@ -63,7 +63,7 @@ except:
 latest_prices = df[df.flag].iloc[-2:].price.apply(lambda val: float(val[1:])).values
 sgn = latest_prices[0]-latest_prices[1]
 diff = abs(sgn)
-sgn = "🔺" if sgn <0 else "🔻"
+sgn = "🌲" if sgn <0 else "🔻"
 
 print(latest_prices)
 print(diff,sgn)
