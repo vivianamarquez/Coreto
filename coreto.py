@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+#!/home/ec2-user/anaconda3/envs/coreto/bin/python
 
 ###############################################################################
 # Script to get alerts from Coreto
