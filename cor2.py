@@ -28,19 +28,19 @@ if pause%10==0:
     
 time.sleep(pause)
 
-link = "https://coinmarketcap.com/currencies/coreto/"
+link = "https://etherscan.io/token/0x9c2dc0c3cc2badde84b0025cf4df1c5af288d835"
 
 request = urllib.request.Request(link, headers={'User-Agent': 'Mozilla/5.0'})
 
-webpage = urllib.request.urlopen(request)
+webpage = urllib.request.urlopen(request, timeout=15)
 source = webpage.read()
 webpage.close()
 
 current_time = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
 soup = bs.BeautifulSoup(source, 'html.parser')
 
-price = unidecode.unidecode(soup.find(class_="price").text).split()[1]
-pct = unidecode.unidecode(soup.find(class_="price").text).split()[2]
+price = soup.find(class_="col-6").find(class_="d-block").text.split()[0]
+pct = soup.find(class_="col-6").find(class_="d-block").text.split()[-1]
 
 
 ###############################################################################
@@ -63,13 +63,10 @@ except:
 latest_prices = df[df.flag].iloc[-2:].price.apply(lambda val: float(val[1:])).values
 sgn = latest_prices[0]-latest_prices[1]
 diff = abs(sgn)
-sgn = "🔺" if sgn <0 else "🔻"
-
-print(latest_prices)
-print(diff,sgn)
+sgn = "🔻" if sgn <0 else "🔺"
 
 # Excecute code if difference is higher than USD$0.001
-flag = round(diff,3)>=0.001
+flag = diff>0.001
 
 def send_msg(text, number, sender):
     message = client.messages.create(body=text, from_=sender, to=number)
@@ -87,7 +84,7 @@ if flag:
     phones = dict(zip(phones[0],phones[1]))
     
     # Compose text message
-    msg = f"Lapi 🐰❤️ Coreto's price is {price}. Price changed {sgn}${round(diff,3)} since last text message. Scraped @ {current_time}"
+    msg = f"Lapi 🐰❤️ Coreto's price is {price}. Price changed {sgn}${round(diff,3)} from last text message. Scraped @ {current_time}"
     
     for person in phones:
         number = phones[person]
