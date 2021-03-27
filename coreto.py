@@ -61,10 +61,12 @@ except:
 ###############################################################################
 # Find difference between the last sent price and current price
 latest_prices = df[df.flag].iloc[-2:].price.apply(lambda val: float(val[1:])).values
-diff = abs(latest_prices[0]-latest_prices[1])
+sgn = latest_prices[0]-latest_prices[1]
+diff = abs(sgn)
+sgn = "🔻" if sgn <0 else "🔺"
 
 # Excecute code if difference is higher than USD$0.005 
-flag = diff>0.02
+flag = diff>0.002
 
 def send_msg(text, number, sender):
     message = client.messages.create(body=text, from_=sender, to=number)
@@ -82,7 +84,7 @@ if flag:
     phones = dict(zip(phones[0],phones[1]))
     
     # Compose text message
-    msg = f"Lapi 🐰❤️ Coreto's price is {price}. Price changed ${diff} from last text message. Scraped @ {current_time}"
+    msg = f"Lapi 🐰❤️ Coreto's price is {price}. Price changed {sgn}${round(diff,3)} from last text message. Scraped @ {current_time}"
     
     for person in phones:
         number = phones[person]
